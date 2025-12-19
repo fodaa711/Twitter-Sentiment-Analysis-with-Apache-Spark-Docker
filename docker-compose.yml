@@ -1,0 +1,74 @@
+services:
+  spark-master:
+    build: .
+    container_name: spark-sentiment-master
+    hostname: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+      - "4040:4040"
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=spark-master
+      - SPARK_MASTER_PORT=7077
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./src:/app/src
+      - ./models:/app/models
+    networks:
+      - spark-network
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+
+  spark-worker-1:
+    build: .
+    container_name: spark-sentiment-worker-1
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=2G
+      - SPARK_WORKER_CORES=2
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    networks:
+      - spark-network
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+
+  spark-worker-2:
+    build: .
+    container_name: spark-sentiment-worker-2
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=2G
+      - SPARK_WORKER_CORES=2
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    networks:
+      - spark-network
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.webapp
+    container_name: sentiment-webapp
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./webapp:/app/webapp
+      - ./output:/app/output
+    networks:
+      - spark-network
+    depends_on:
+      - spark-master
+
+networks:
+  spark-network:
+    driver: bridge

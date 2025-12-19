@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Sentiment Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐦 Twitter Sentiment Analyzer</h1>
+            <p class="subtitle">Powered by Apache Spark & Machine Learning</p>
+        </header>
+
+        <div class="card">
+            <div class="input-section">
+                <label for="textInput">Enter your text:</label>
+                <textarea 
+                    id="textInput" 
+                    placeholder="Type something like: 'I love this product!' or 'This is terrible...'"
+                    rows="4"
+                ></textarea>
+                
+                <button id="analyzeBtn" onclick="analyzeSentiment()">
+                    <span id="btnText">🔍 Analyze Sentiment</span>
+                    <span id="btnLoader" class="loader" style="display: none;"></span>
+                </button>
+            </div>
+
+            <div id="resultSection" class="result-section" style="display: none;">
+                <h2>Analysis Result</h2>
+                
+                <div class="result-card">
+                    <div class="prediction-badge" id="predictionBadge">
+                        <span id="predictionLabel">Positive</span>
+                    </div>
+                    
+                    <div class="confidence">
+                        <strong>Confidence:</strong> <span id="confidence">0%</span>
+                    </div>
+                </div>
+
+                <div class="probabilities">
+                    <h3>All Probabilities:</h3>
+                    <div class="prob-bars" id="probBars">
+                        <!-- Probability bars will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="cleaned-text">
+                    <strong>Processed Text:</strong>
+                    <p id="cleanedText"></p>
+                </div>
+            </div>
+
+            <div id="errorSection" class="error-section" style="display: none;">
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>Try these examples:</h3>
+            <div class="example-buttons">
+                <button class="example-btn" onclick="setExample('This product is amazing! Best purchase ever!')">
+                    Positive Example
+                </button>
+                <button class="example-btn" onclick="setExample('This is terrible. Waste of money.')">
+                    Negative Example
+                </button>
+                <button class="example-btn" onclick="setExample('The weather is nice today.')">
+                    Neutral Example
+                </button>
+                <button class="example-btn" onclick="setExample('Random irrelevant discussion here.')">
+                    Irrelevant Example
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with Apache Spark, Docker & Flask</p>
+            <p>Model Accuracy: 91.74% Training | 80.18% Validation</p>
+        </footer>
+    </div>
+
+    <script>
+        function setExample(text) {
+            document.getElementById('textInput').value = text;
+        }
+
+        async function analyzeSentiment() {
+            const text = document.getElementById('textInput').value.trim();
+            
+            if (!text) {
+                showError('Please enter some text to analyze');
+                return;
+            }
+
+            // Show loading state
+            const btn = document.getElementById('analyzeBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline-block';
+
+            // Hide previous results
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('errorSection').style.display = 'none';
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResult(data);
+                } else {
+                    showError(data.error || 'An error occurred');
+                }
+            } catch (error) {
+                showError('Failed to connect to the server: ' + error.message);
+            } finally {
+                // Reset button state
+                btn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        }
+
+        function displayResult(data) {
+            // Show result section
+            document.getElementById('resultSection').style.display = 'block';
+
+            // Set prediction label and badge color
+            const predictionBadge = document.getElementById('predictionBadge');
+            const predictionLabel = document.getElementById('predictionLabel');
+            predictionLabel.textContent = data.prediction;
+            
+            // Set badge color based on sentiment
+            predictionBadge.className = 'prediction-badge';
+            if (data.prediction === 'Positive') {
+                predictionBadge.classList.add('positive');
+            } else if (data.prediction === 'Negative') {
+                predictionBadge.classList.add('negative');
+            } else if (data.prediction === 'Neutral') {
+                predictionBadge.classList.add('neutral');
+            } else {
+                predictionBadge.classList.add('irrelevant');
+            }
+
+            // Set confidence
+            document.getElementById('confidence').textContent = data.confidence.toFixed(2) + '%';
+
+            // Display all probabilities
+            const probBars = document.getElementById('probBars');
+            probBars.innerHTML = '';
+            
+            for (const [label, prob] of Object.entries(data.all_probabilities)) {
+                const barContainer = document.createElement('div');
+                barContainer.className = 'prob-bar-container';
+                
+                const barLabel = document.createElement('div');
+                barLabel.className = 'prob-label';
+                barLabel.textContent = label;
+                
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'prob-bar-wrapper';
+                
+                const bar = document.createElement('div');
+                bar.className = 'prob-bar';
+                bar.style.width = prob + '%';
+                
+                // Color the bar based on label
+                if (label === 'Positive') bar.style.backgroundColor = '#10b981';
+                else if (label === 'Negative') bar.style.backgroundColor = '#ef4444';
+                else if (label === 'Neutral') bar.style.backgroundColor = '#f59e0b';
+                else bar.style.backgroundColor = '#6b7280';
+                
+                const barValue = document.createElement('div');
+                barValue.className = 'prob-value';
+                barValue.textContent = prob.toFixed(2) + '%';
+                
+                barWrapper.appendChild(bar);
+                barContainer.appendChild(barLabel);
+                barContainer.appendChild(barWrapper);
+                barContainer.appendChild(barValue);
+                probBars.appendChild(barContainer);
+            }
+
+            // Display cleaned text
+            document.getElementById('cleanedText').textContent = data.cleaned_text || 'N/A';
+        }
+
+        function showError(message) {
+            document.getElementById('errorSection').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('textInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                analyzeSentiment();
+            }
+        });
+    </script>
+</body>
+</html>

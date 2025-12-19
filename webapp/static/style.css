@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.input-section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 15px;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.result-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e0e0;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.result-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.prediction-badge {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.prediction-badge.positive {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.prediction-badge.negative {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.prediction-badge.neutral {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.prediction-badge.irrelevant {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+.confidence {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.probabilities {
+    margin-top: 20px;
+}
+
+.probabilities h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.prob-bar-container {
+    display: grid;
+    grid-template-columns: 120px 1fr 80px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.prob-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.prob-bar-wrapper {
+    background: #e0e0e0;
+    height: 25px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.prob-bar {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.5s ease;
+}
+
+.prob-value {
+    text-align: right;
+    font-weight: 600;
+    color: #666;
+}
+
+.cleaned-text {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 8px;
+}
+
+.cleaned-text p {
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.error-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fee2e2;
+    border: 2px solid #ef4444;
+    border-radius: 10px;
+    color: #991b1b;
+    animation: fadeIn 0.3s;
+}
+
+.examples {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.examples h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.example-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.example-btn {
+    padding: 12px;
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.example-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+footer {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .prob-bar-container {
+        grid-template-columns: 100px 1fr 60px;
+        gap: 5px;
+    }
+    
+    .example-buttons {
+        grid-template-columns: 1fr;
+    }
+}
