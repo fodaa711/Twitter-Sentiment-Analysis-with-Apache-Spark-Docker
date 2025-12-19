@@ -1,4 +1,4 @@
-\# 🐦 Twitter Sentiment Analysis with Apache Spark \& Docker
+\#  Twitter Sentiment Analysis with Apache Spark \& Docker
 
 
 
@@ -44,7 +44,7 @@ This project implements a complete end-to-end machine learning pipeline for sent
 
 
 
-\## 🏗️ \*\*Architecture\*\*
+\##  \*\*Architecture\*\*
 
 
 
@@ -100,7 +100,7 @@ This project implements a complete end-to-end machine learning pipeline for sent
 
 
 
-\## 🚀 \*\*Quick Start\*\*
+\##  \*\*Quick Start\*\*
 
 
 
@@ -206,7 +206,7 @@ http://localhost:5000
 
 
 
-\## 📁 \*\*Project Structure\*\*
+\##  \*\*Project Structure\*\*
 
 
 
@@ -276,7 +276,7 @@ twitter-sentiment-spark/
 
 
 
-\## 🛠️ \*\*ML Pipeline Details\*\*
+\##  \*\*ML Pipeline Details\*\*
 
 
 
@@ -320,7 +320,7 @@ twitter-sentiment-spark/
 
 
 
-\## 🌐 \*\*Web Interface Features\*\*
+\##  \*\*Web Interface Features\*\*
 
 
 
@@ -340,7 +340,7 @@ twitter-sentiment-spark/
 
 
 
-\## 📊 \*\*Monitoring\*\*
+\##  \*\*Monitoring\*\*
 
 
 
@@ -372,7 +372,7 @@ Monitor stages, tasks, and execution details.
 
 
 
-\## 🐳 \*\*Docker Commands\*\*
+\##  \*\*Docker Commands\*\*
 
 
 
@@ -470,7 +470,7 @@ If you add new Python packages:
 
 
 
-\## 📈 \*\*Results\*\*
+\##  \*\*Results\*\*
 
 
 
@@ -514,7 +514,7 @@ The model successfully classifies tweets into four sentiment categories with hig
 
 
 
-\## 🧪 \*\*Testing\*\*
+\## \*\*Testing\*\*
 
 
 
@@ -550,7 +550,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 
 
-\## 📄 \*\*License\*\*
+\##  \*\*License\*\*
 
 
 
@@ -562,7 +562,7 @@ This project is for educational purposes.
 
 
 
-\## 👨‍💻 \*\*Author\*\*
+\##  \*\*Author\*\*
 
 
 
@@ -578,7 +578,7 @@ Big Data Project - Sentiment Analysis with Apache Spark
 
 
 
-\## 🙏 \*\*Acknowledgments\*\*
+\##  \*\*Acknowledgments\*\*
 
 
 
@@ -596,7 +596,7 @@ Big Data Project - Sentiment Analysis with Apache Spark
 
 
 
-\## 📞 \*\*Support\*\*
+\##  \*\*Support\*\*
 
 
 
@@ -608,5 +608,5 @@ For issues or questions, please open an issue in the GitHub repository.
 
 
 
-\*\*Built with ❤️ using Apache Spark, Docker, and Flask\*\*
+\*\*Built with  using Apache Spark, Docker, and Flask\*\*
 
